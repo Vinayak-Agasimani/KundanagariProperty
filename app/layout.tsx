@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Vision to Reality | Luxury Architecture",
-  description: "A premium architectural storytelling experience.",
+  title: "Kundanagari Properties | Buy Sell Rent in Belgaum",
+  description: "Kundanagari Properties helps you buy, sell, rent, and invest in residential and commercial properties in Belgaum with trusted local expertise.",
 };
 
 export default function RootLayout({
