@@ -80,8 +80,11 @@ const BungalowScroll: React.FC<BungalowScrollProps> = ({ onLoadProgress, onLoade
       const context = canvas.getContext("2d");
       if (!context) return;
 
-      // HD Optimization: Draw image at 70% of screen size to maintain sharpness
-      const scaleFactor = 0.7; 
+      // Responsive Optimization
+      const isMobile = canvasWidth < 768;
+      const scaleFactor = isMobile ? 0.9 : 0.7; 
+      const borderRadius = isMobile ? 20 : 40;
+
       const maxWidth = canvasWidth * scaleFactor;
       const maxHeight = canvasHeight * scaleFactor;
 
@@ -108,7 +111,6 @@ const BungalowScroll: React.FC<BungalowScrollProps> = ({ onLoadProgress, onLoade
       context.imageSmoothingQuality = "high";
       
       // Premium Rounded "Card" Effect
-      const borderRadius = 40;
       context.beginPath();
       context.moveTo(x + borderRadius, y);
       context.lineTo(x + drawWidth - borderRadius, y);
@@ -127,7 +129,7 @@ const BungalowScroll: React.FC<BungalowScrollProps> = ({ onLoadProgress, onLoade
 
       // Add a subtle border to the card for depth
       context.strokeStyle = "rgba(255, 255, 255, 0.05)";
-      context.lineWidth = 2;
+      context.lineWidth = 1; // Thinner border for mobile
       context.stroke();
     };
 

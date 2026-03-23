@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from "framer-motion";
+import { Menu, X, Phone } from "lucide-react";
 import BungalowScroll from "@/components/BungalowScroll";
 import LoadingScreen from "@/components/LoadingScreen";
 import ProfileSection from "@/components/ProfileSection";
@@ -36,6 +37,7 @@ const BEATS = [
 export default function Home() {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const smoothYProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
@@ -59,16 +61,80 @@ export default function Home() {
       </AnimatePresence>
 
       <div className={isLoaded ? "opacity-100" : "opacity-0 transition-opacity duration-1000"}>
-        {/* Navigation - Clickable */}
-        <nav className="fixed top-0 left-0 w-full z-50 p-8 flex justify-between items-center bg-gradient-to-b from-[#000000] to-transparent">
-          <div className="text-white/90 text-[10px] tracking-[0.8em] font-black uppercase cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        {/* Navigation */}
+        <nav className="fixed top-0 left-0 w-full z-[100] px-6 py-6 md:p-8 flex justify-between items-center bg-gradient-to-b from-[#000000] to-transparent">
+          <div 
+            className="text-white/90 text-[10px] md:text-xs tracking-[0.8em] font-black uppercase cursor-pointer z-[101]" 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
             kundanagariproperties
           </div>
-          <div className="flex gap-12 items-center">
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex gap-12 items-center">
             <span onClick={() => scrollToSection('land')} className="text-white/40 text-[9px] tracking-[0.4em] uppercase cursor-pointer hover:text-white transition-all">Land</span>
             <span onClick={() => scrollToSection('builders')} className="text-white/40 text-[9px] tracking-[0.4em] uppercase cursor-pointer hover:text-white transition-all">Builders</span>
             <span onClick={() => scrollToSection('strategy')} className="text-white/40 text-[9px] tracking-[0.4em] uppercase cursor-pointer hover:text-white transition-all">Strategy</span>
+            <button 
+              onClick={() => scrollToSection('strategy')}
+              className="px-6 py-2 border border-white/20 text-white text-[9px] tracking-[0.3em] uppercase font-bold hover:bg-white hover:text-black transition-all"
+            >
+              Book Call
+            </button>
           </div>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden text-white z-[101]" 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
+          {/* Mobile Menu Overlay */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed inset-y-0 right-0 w-[80%] bg-[#050505] border-l border-white/10 z-[100] p-12 flex flex-col justify-center gap-12"
+              >
+                <div className="flex flex-col gap-8 text-left">
+                  <span 
+                    onClick={() => { scrollToSection('land'); setIsMenuOpen(false); }} 
+                    className="text-white text-3xl font-black tracking-tighter uppercase"
+                  >
+                    Land
+                  </span>
+                  <span 
+                    onClick={() => { scrollToSection('builders'); setIsMenuOpen(false); }} 
+                    className="text-white text-3xl font-black tracking-tighter uppercase"
+                  >
+                    Builders
+                  </span>
+                  <span 
+                    onClick={() => { scrollToSection('strategy'); setIsMenuOpen(false); }} 
+                    className="text-white text-3xl font-black tracking-tighter uppercase"
+                  >
+                    Strategy
+                  </span>
+                </div>
+                
+                <button 
+                  onClick={() => { scrollToSection('strategy'); setIsMenuOpen(false); }}
+                  className="w-full py-5 border border-white/20 text-white text-[10px] tracking-[0.5em] uppercase font-black hover:bg-white hover:text-black transition-all mt-8"
+                >
+                  Book A Call
+                </button>
+
+                <div className="mt-auto pt-12 border-t border-white/5">
+                  <p className="text-white/20 text-[9px] tracking-[0.4em] uppercase">Belgaum Real Estate</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </nav>
 
         {/* 1. SCROLLYTELLING SECTION - 400vh Track */}
@@ -119,9 +185,9 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <footer className="h-[40vh] bg-[#000000] flex flex-col items-center justify-center border-t border-white/5 gap-6">
-          <div className="text-white/5 text-[120px] font-black tracking-tighter select-none">BHARAT</div>
-          <p className="text-white/20 text-[9px] tracking-[0.6em] uppercase">© 2024 Avant-Garde Real Estate Consultancy India</p>
+        <footer className="h-[40vh] bg-[#000000] flex flex-col items-center justify-center border-t border-white/5 gap-6 p-8 text-center">
+          <div className="text-white/5 text-[60px] md:text-[120px] font-black tracking-tighter select-none">BHARAT</div>
+          <p className="text-white/20 text-[8px] md:text-[9px] tracking-[0.4em] md:tracking-[0.6em] uppercase">© 2024 Avant-Garde Real Estate Consultancy India</p>
         </footer>
       </div>
     </main>
@@ -152,20 +218,26 @@ function BeatSection({ beat, progress }: { beat: any, progress: any }) {
       style={{ opacity, y, scale }}
       className="fixed inset-0 flex flex-col items-center justify-center p-8 text-center pointer-events-none z-20"
     >
-      <div className="max-w-5xl space-y-8">
-        <h2 className="text-6xl md:text-8xl lg:text-[10rem] font-black text-white tracking-[-0.05em] leading-[0.85] uppercase">
+      <div className="max-w-5xl space-y-4 md:space-y-8">
+        <h2 className="text-4xl sm:text-5xl md:text-8xl lg:text-[10rem] font-black text-white tracking-[-0.05em] leading-[0.85] uppercase">
           {beat.title}
         </h2>
-        <p className="text-sm md:text-base text-white/40 font-light tracking-[0.4em] uppercase max-w-2xl mx-auto leading-relaxed">
+        <p className="text-[10px] md:text-base text-white/40 font-light tracking-[0.3em] md:tracking-[0.4em] uppercase max-w-2xl mx-auto leading-relaxed">
           {beat.subtitle}
         </p>
         {beat.hasCTA && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="pt-16 pointer-events-auto"
+            className="pt-8 md:pt-16 pointer-events-auto"
           >
-            <button className="px-12 py-5 border border-white/20 text-white text-[10px] tracking-[0.5em] uppercase font-bold hover:bg-white hover:text-black transition-all hover:scale-110 active:scale-95 duration-500">
+            <button 
+              onClick={() => {
+                const el = document.getElementById('strategy');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="px-8 py-4 md:px-12 md:py-5 border border-white/20 text-white text-[9px] md:text-[10px] tracking-[0.5em] uppercase font-bold hover:bg-white hover:text-black transition-all hover:scale-110 active:scale-95 duration-500"
+            >
               Explore Collection &mdash;&gt;
             </button>
           </motion.div>

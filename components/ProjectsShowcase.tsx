@@ -32,19 +32,19 @@ const PROJECTS = [
 
 const ProjectsShowcase = () => {
   return (
-    <section className="py-40 px-8">
-      <div className="w-full space-y-32">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 border-l border-white/10 pl-12">
+    <section className="py-20 md:py-40 px-6 md:px-8">
+      <div className="w-full space-y-16 md:space-y-32">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-12 border-l border-white/10 pl-6 md:pl-12">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="space-y-8"
           >
-            <h3 className="text-white/20 text-[10px] tracking-[0.8em] uppercase font-bold">
+            <h3 className="text-white/20 text-[9px] md:text-[10px] tracking-[0.6em] md:tracking-[0.8em] uppercase font-bold">
               Belgaum Properties
             </h3>
-            <h2 className="text-6xl md:text-9xl font-black text-white tracking-tighter uppercase leading-[0.9]">
+            <h2 className="text-4xl sm:text-6xl md:text-9xl font-black text-white tracking-tighter uppercase leading-[0.9]">
               Featured <br/> Properties
             </h2>
           </motion.div>
@@ -66,7 +66,7 @@ const ProjectsShowcase = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="group relative aspect-square bg-[#050505] p-12 flex flex-col justify-between overflow-hidden cursor-pointer"
+              className="group relative aspect-video md:aspect-square bg-[#050505] p-6 md:p-12 flex flex-col justify-between overflow-hidden cursor-pointer"
             >
               {/* Background Image */}
               <div className="absolute inset-0 z-0">
@@ -81,20 +81,20 @@ const ProjectsShowcase = () => {
               </div>
 
               <div className="relative z-10 transition-transform duration-500 group-hover:-translate-y-2">
-                <div className="text-white/40 text-[9px] tracking-[0.4em] uppercase mb-4 font-bold">
+                <div className="text-white/40 text-[8px] md:text-[9px] tracking-[0.3em] md:tracking-[0.4em] uppercase mb-2 md:mb-4 font-bold">
                   {project.category}
                 </div>
-                <div className="text-white text-4xl md:text-5xl font-black tracking-tighter uppercase leading-tight">
+                <div className="text-2xl md:text-5xl font-black tracking-tighter uppercase leading-tight text-white">
                   {project.title}
                 </div>
               </div>
 
               <div className="relative z-10 flex justify-between items-end">
-                <div className="text-white/60 text-[10px] tracking-[0.3em] uppercase font-medium">
+                <div className="text-white/60 text-[8px] md:text-[10px] tracking-[0.2em] md:tracking-[0.3em] uppercase font-medium">
                   {project.location}
                 </div>
-                <div className="w-14 h-14 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all group-hover:scale-110 duration-500">
-                  <span className="text-2xl">→</span>
+                <div className="w-10 h-10 md:w-14 md:h-14 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all group-hover:scale-110 duration-500">
+                  <span className="text-xl md:text-2xl">→</span>
                 </div>
               </div>
             </motion.div>
